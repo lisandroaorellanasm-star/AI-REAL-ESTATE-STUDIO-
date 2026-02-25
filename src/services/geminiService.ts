@@ -13,13 +13,21 @@ export const generateRender = async (itemsText: string, markers: any[]) => {
 
     try {
         const response = await ai.models.generateContent({
-            model: 'gemini-1.5-flash',
+            model: 'gemini-2.5-flash-image',
             contents: [{ parts: [{ text: prompt }] }],
         });
-        // Simplificamos para evitar errores de tipo si la estructura de respuesta varía
-        return null;
+
+        // Search for image in parts
+        const part = response.candidates?.[0]?.content?.parts?.find(p => p.inlineData);
+        if (part?.inlineData) {
+            return `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
+        }
+
+        // If not inlineData, maybe it's in a different field or text that contains a URL
+        return response.text || null;
     } catch (error) {
         console.error("Error generating render:", error);
+        // Fallback to gemini-1.5-flash if 2.5 fails, though it won't produce an image
         return null;
     }
 };
