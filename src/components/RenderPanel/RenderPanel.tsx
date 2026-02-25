@@ -34,24 +34,35 @@ const RenderPanel = () => {
     };
 
     return (
-        <div className="w-full h-full relative">
+        <div className="w-full h-full relative group">
             {isLoading ? (
-                <div className="absolute inset-0 bg-gray-900/90 flex flex-col items-center justify-center z-30 backdrop-blur-sm text-white">
-                    <i className="fa-solid fa-palette fa-bounce text-4xl mb-3 text-blue-400"></i>
-                    <p className="text-sm font-bold">{texts.paintingRender}</p>
+                <div className="absolute inset-0 bg-slate-950/90 flex flex-col items-center justify-center z-30 backdrop-blur-2xl text-white">
+                    <div className="relative mb-6">
+                        <div className="absolute inset-0 bg-purple-500/20 blur-3xl rounded-full"></div>
+                        <i className="fa-solid fa-palette fa-bounce text-5xl text-purple-400 relative z-10"></i>
+                    </div>
+                    <p className="text-[10px] font-black uppercase tracking-[0.3em] animate-pulse text-white/60">{texts.paintingRender}</p>
                 </div>
             ) : imageUrl ? (
-                <div className="absolute inset-0 bg-black group">
-                    <img src={imageUrl} alt="Generated Render" className="w-full h-full object-cover opacity-95 transition-opacity group-hover:opacity-100" />
-                    <button onClick={handleGenerateRender} className="absolute bottom-3 right-3 bg-black/50 text-white p-3 rounded-full hover:bg-black/80 shadow-lg">
-                        <i className="fa-solid fa-rotate-right"></i>
+                <div className="absolute inset-0 bg-black overflow-hidden rounded-[2rem]">
+                    <img src={imageUrl} alt="Generated Render" className="w-full h-full object-cover opacity-90 transition-all group-hover:opacity-100 group-hover:scale-105 duration-700" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    <button onClick={handleGenerateRender} className="absolute bottom-5 right-5 bg-white/10 hover:bg-purple-600 text-white p-4 rounded-2xl backdrop-blur-md border border-white/20 transition-all shadow-2xl group/btn">
+                        <i className="fa-solid fa-rotate-right group-hover/btn:rotate-180 transition-transform duration-500 text-sm"></i>
                     </button>
+                    <div className="absolute bottom-5 left-8">
+                        <span className="text-[9px] font-black text-white/40 uppercase tracking-widest bg-black/40 px-3 py-1.5 rounded-full border border-white/5 backdrop-blur-sm">Vista Generada por IA</span>
+                    </div>
                 </div>
             ) : (
-                <div className="absolute inset-0 bg-gray-100 dark:bg-slate-800 flex flex-col items-center justify-center p-4 text-center z-20">
-                    <i className="fa-solid fa-camera-retro text-4xl text-gray-300 dark:text-gray-600 mb-3"></i>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-4 max-w-[200px]">{texts.renderDesc}</p>
-                    <button onClick={handleGenerateRender} className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-bold py-2 px-5 rounded-full text-sm shadow-md transition-transform transform hover:scale-105 flex items-center gap-2">
+                <div className="absolute inset-0 bg-slate-950 flex flex-col items-center justify-center p-8 text-center z-20">
+                    <div className="mb-6 relative">
+                        <div className="absolute inset-0 bg-purple-600/10 blur-3xl rounded-full"></div>
+                        <i className="fa-solid fa-camera-viewfinder text-5xl text-white/10 relative z-10"></i>
+                    </div>
+                    <p className="text-[11px] text-white/30 mb-8 max-w-[220px] leading-relaxed font-medium italic">{texts.renderDesc}</p>
+                    <button onClick={handleGenerateRender} className="bg-purple-600 hover:bg-purple-500 text-white font-black py-4 px-8 rounded-2xl shadow-lg shadow-purple-500/20 transition-all transform hover:scale-105 active:scale-95 flex items-center gap-3 text-xs uppercase tracking-[0.2em] border border-white/10">
+                        <i className="fa-solid fa-microchip"></i>
                         <span>{texts.btnGenerateRender}</span>
                     </button>
                 </div>

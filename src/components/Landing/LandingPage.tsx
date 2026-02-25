@@ -1,9 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import AuthForm from './AuthForm';
 import LandingMap from './LandingMap';
+import { useStore } from '@/src/store';
 
 const LandingPage = () => {
+    const { setActiveLotId } = useStore();
+
+    useEffect(() => {
+        const handleSelectProject = (e: any) => {
+            const lotId = e.detail;
+            setActiveLotId(lotId);
+            // Scroll to HERO/Login
+            const hero = document.getElementById('hero');
+            if (hero) {
+                hero.scrollIntoView({ behavior: 'smooth' });
+            }
+        };
+
+        document.addEventListener('select-project', handleSelectProject);
+        return () => document.removeEventListener('select-project', handleSelectProject);
+    }, [setActiveLotId]);
+
     return (
         <div className="relative min-h-screen w-full overflow-x-hidden bg-slate-950 text-white selection:bg-purple-500/30">
             {/* Parallax Background - Fixed */}
@@ -29,7 +47,7 @@ const LandingPage = () => {
             </div>
 
             {/* Hero Section */}
-            <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 pt-20 pb-10">
+            <div id="hero" className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 pt-20 pb-10">
                 <div className="w-full max-w-7xl flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
                     <div className="flex-1 text-center lg:text-left">
                         <motion.div
@@ -100,6 +118,7 @@ const LandingPage = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {/* Lote 1 */}
                     <ProjectCard
+                        id="lote1"
                         title="El Refugio Forestal"
                         lot="Lote 1"
                         area="2,762.75 m²"
@@ -109,6 +128,7 @@ const LandingPage = () => {
 
                     {/* Lote 2 */}
                     <ProjectCard
+                        id="lote2"
                         title="La Gran Reserva"
                         lot="Lote 2"
                         area="6,165.16 m²"
@@ -119,6 +139,7 @@ const LandingPage = () => {
 
                     {/* Lote 3 */}
                     <ProjectCard
+                        id="lote3"
                         title="Altos del Pino"
                         lot="Lote 3"
                         area="4,266.26 m²"
@@ -174,40 +195,47 @@ const LandingPage = () => {
     );
 };
 
-const ProjectCard = ({ title, lot, area, img, tag, delay = 0 }: any) => (
-    <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay }}
-        className="group relative h-[500px] rounded-[2.5rem] overflow-hidden border border-white/10 bg-white/5 active:scale-[0.98] transition-all cursor-pointer shadow-2xl"
-    >
-        <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style={{ backgroundImage: `url(${img})` }} />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
+const ProjectCard = ({ id, title, lot, area, img, tag, delay = 0 }: any) => {
+    const handleClick = () => {
+        document.dispatchEvent(new CustomEvent('select-project', { detail: id }));
+    };
 
-        <div className="absolute top-6 left-6 flex gap-2">
-            <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider border border-white/10">
-                {tag}
-            </span>
-            <span className="bg-purple-600/50 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider border border-white/10">
-                AI Ready
-            </span>
-        </div>
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay }}
+            onClick={handleClick}
+            className="group relative h-[500px] rounded-[2.5rem] overflow-hidden border border-white/10 bg-white/5 active:scale-[0.98] transition-all cursor-pointer shadow-2xl"
+        >
+            <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style={{ backgroundImage: `url(${img})` }} />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
 
-        <div className="absolute bottom-10 left-10 right-10">
-            <p className="text-purple-400 font-black text-xs uppercase tracking-widest mb-2">{lot}</p>
-            <h3 className="text-3xl font-black mb-4 leading-none tracking-tighter">{title}</h3>
-            <div className="flex items-center justify-between border-t border-white/10 pt-6">
-                <div className="text-white/40 text-xs font-bold uppercase overflow-hidden">
-                    <span className="block text-white text-lg leading-none mb-1 font-black">{area}</span>
-                    Superficie Total
-                </div>
-                <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center group-hover:bg-purple-500 transition-colors shadow-xl">
-                    <i className="fa-solid fa-arrow-right text-slate-950 group-hover:text-white transition-colors"></i>
+            <div className="absolute top-6 left-6 flex gap-2">
+                <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider border border-white/10">
+                    {tag}
+                </span>
+                <span className="bg-purple-600/50 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider border border-white/10">
+                    AI Ready
+                </span>
+            </div>
+
+            <div className="absolute bottom-10 left-10 right-10">
+                <p className="text-purple-400 font-black text-xs uppercase tracking-widest mb-2">{lot}</p>
+                <h3 className="text-3xl font-black mb-4 leading-none tracking-tighter">{title}</h3>
+                <div className="flex items-center justify-between border-t border-white/10 pt-6">
+                    <div className="text-white/40 text-xs font-bold uppercase overflow-hidden">
+                        <span className="block text-white text-lg leading-none mb-1 font-black">{area}</span>
+                        Superficie Total
+                    </div>
+                    <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center group-hover:bg-purple-500 transition-colors shadow-xl">
+                        <i className="fa-solid fa-arrow-right text-slate-950 group-hover:text-white transition-colors"></i>
+                    </div>
                 </div>
             </div>
-        </div>
-    </motion.div>
-);
+        </motion.div>
+    );
+};
 
 export default LandingPage;

@@ -79,34 +79,43 @@ const ChatAgent = ({ totalInvestment, roiPercentage }) => {
     };
 
     return (
-        <div className="w-full sm:w-1/3 p-4 bg-white dark:bg-slate-800 flex flex-col transition-colors">
-            <div className="flex items-center gap-2 mb-4 pb-3 border-b border-gray-100 dark:border-slate-700 shrink-0">
-                <h4 className="font-bold text-sm text-gray-800 dark:text-gray-200">{texts.voiceAgent}</h4>
+        <div className="w-full sm:w-1/3 p-6 bg-slate-950/20 backdrop-blur-3xl border-l border-white/10 flex flex-col h-full transition-all">
+            <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/10 shrink-0">
+                <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse shadow-[0_0_8px_#a855f7]"></div>
+                    <h4 className="font-black text-[10px] uppercase tracking-[0.2em] text-white/60">{texts.voiceAgent}</h4>
+                </div>
+                <div className="text-[10px] text-white/20 font-black uppercase tracking-widest">IA Expert</div>
             </div>
             {!isNarrationPlayed ? (
-                <div className="flex-1 flex flex-col justify-center items-center text-center gap-5">
-                    <p className="text-xs text-gray-500 dark:text-gray-400 italic px-2 leading-relaxed">{texts.voiceHint}</p>
-                    <button onClick={handleNarrate} disabled={!selectedIdea} className="w-20 h-20 rounded-full bg-gray-200 dark:bg-slate-700 text-gray-400 dark:text-gray-500 flex items-center justify-center text-3xl shadow transition-all transform disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 relative group">
-                        ▶
+                <div className="flex-1 flex flex-col justify-center items-center text-center gap-8 py-8">
+                    <div className="p-6 bg-white/5 rounded-3xl border border-white/5 backdrop-blur-xl mb-4">
+                        <p className="text-[11px] text-white/50 italic leading-relaxed px-4">{texts.voiceHint}</p>
+                    </div>
+                    <button onClick={handleNarrate} disabled={!selectedIdea} className="w-24 h-24 rounded-full bg-purple-600/10 text-purple-400 flex items-center justify-center text-4xl shadow-2xl transition-all transform hover:scale-110 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100 relative group border border-purple-500/30">
+                        <div className="absolute inset-0 bg-purple-500/20 blur-2xl rounded-full group-hover:bg-purple-500/40 transition-all"></div>
+                        <i className="fa-solid fa-play relative z-10 ml-1"></i>
                     </button>
-                    <p className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mt-1">{texts.voiceWaiting}</p>
+                    <p className="text-[9px] font-black text-white/30 uppercase tracking-[0.3em] mt-4 animate-pulse">{texts.voiceWaiting}</p>
                 </div>
             ) : (
                 <>
-                    <div className="flex-1 flex flex-col bg-gray-50 dark:bg-slate-800/50 rounded-lg p-2 overflow-y-auto mb-4">
+                    <div className="flex-1 flex flex-col bg-black/40 rounded-[2rem] p-4 overflow-y-auto mb-6 custom-scrollbar border border-white/5">
                         {messages.map((msg, index) => (
-                            <div key={index} className={`p-2 rounded-lg my-1 ${msg.role === 'user' ? 'bg-blue-100 dark:bg-blue-900/50 self-end' : 'bg-gray-200 dark:bg-slate-700/50 self-start'}`}>
-                                <p className="text-xs text-gray-800 dark:text-gray-200">{msg.text}</p>
-                                <button onClick={() => handleSpeak(msg.text)} className="ml-2 text-xs text-gray-500 dark:text-gray-400"><i className={`fa-solid ${isSpeaking ? 'fa-pause' : 'fa-volume-high'}`}></i></button>
+                            <div key={index} className={`max-w-[85%] p-4 rounded-3xl my-2 flex flex-col gap-2 relative group-msg ${msg.role === 'user' ? 'bg-purple-600 text-white self-end rounded-br-none shadow-lg' : 'bg-white/10 text-white/80 self-start rounded-bl-none border border-white/5'}`}>
+                                <p className="text-[11px] font-medium leading-relaxed">{msg.text}</p>
+                                <button onClick={() => handleSpeak(msg.text)} className={`absolute -bottom-1 ${msg.role === 'user' ? '-left-8' : '-right-8'} p-2 text-white/20 hover:text-purple-400 transition-colors`}>
+                                    <i className={`fa-solid ${isSpeaking ? 'fa-pause' : 'fa-volume-high'} text-[10px]`}></i>
+                                </button>
                             </div>
                         ))}
-                        {isLoading && <div className="self-start p-2"><p className="text-xs">...</p></div>}
+                        {isLoading && <div className="self-start p-4 bg-white/5 rounded-2xl animate-pulse"><p className="text-white/20 text-xs">...</p></div>}
                         <div ref={messagesEndRef} />
                     </div>
-                    <div className="flex gap-2">
-                        <input type="text" value={input} onChange={(e) => setInput(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && handleSend()} placeholder="Escribe tu pregunta..." className="flex-1 p-2 text-xs rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700" />
-                        <button onClick={handleSend} disabled={isLoading} className="px-4 py-2 bg-purple-600 text-white rounded-lg text-xs font-bold disabled:opacity-50">
-                            Enviar
+                    <div className="flex gap-3 bg-white/5 p-2 rounded-2xl border border-white/10 backdrop-blur-xl">
+                        <input type="text" value={input} onChange={(e) => setInput(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && handleSend()} placeholder="Consultar experto..." className="flex-1 bg-transparent px-3 py-2 text-white text-[11px] placeholder:text-white/20 focus:outline-none font-medium" />
+                        <button onClick={handleSend} disabled={isLoading} className="w-10 h-10 bg-purple-600 hover:bg-purple-500 text-white rounded-xl shadow-lg transition-all transform hover:scale-105 active:scale-95 disabled:opacity-50 flex items-center justify-center border border-white/10">
+                            <i className="fa-solid fa-paper-plane text-xs"></i>
                         </button>
                     </div>
                 </>

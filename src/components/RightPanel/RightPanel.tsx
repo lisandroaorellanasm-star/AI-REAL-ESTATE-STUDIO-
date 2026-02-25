@@ -30,7 +30,7 @@ const RightPanel = () => {
     const { selectIdea, selectedIdea } = useStore();
 
     return (
-        <div className="w-full bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 flex flex-col h-full overflow-hidden transition-colors">
+        <div className="w-full bg-slate-950/80 backdrop-blur-2xl rounded-[2.5rem] shadow-2xl border border-white/10 flex flex-col h-full overflow-hidden transition-all">
             {isLoading ? (
                 <div id="ai-status-panel" className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-gray-50 dark:bg-slate-800/50">
                     <div id="ai-loading">
@@ -40,25 +40,26 @@ const RightPanel = () => {
                 </div>
             ) : (
                 <div id="ai-results-panel" className="flex flex-1 flex-col overflow-hidden">
-                    <div className="p-3 border-b border-gray-200 dark:border-slate-700 bg-purple-50/50 dark:bg-purple-900/10 shrink-0 transition-colors flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-                        <h3 className="font-bold text-gray-800 dark:text-gray-200 text-xs flex items-center gap-2 px-1">
-                            Bases del Proyecto (Elige una para iniciar)
+                    <div className="p-4 border-b border-white/10 bg-white/5 shrink-0 transition-all flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                        <h3 className="font-black text-white text-[10px] uppercase tracking-[0.2em] flex items-center gap-2 px-1">
+                            <i className="fa-solid fa-brain text-purple-400"></i>
+                            Bases del Proyecto (Selección IA)
                         </h3>
                         <OccupancyPanel />
                     </div>
 
-                    <div className="p-3 border-b border-gray-200 dark:border-slate-700 bg-gray-50/30 dark:bg-slate-900/10 shrink-0">
-                        <div id="ideas-grid" className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                    <div className="p-4 border-b border-white/10 bg-white/5 shrink-0">
+                        <div id="ideas-grid" className="grid grid-cols-1 md:grid-cols-3 gap-3">
                             {ideas.map(idea => (
                                 <button
                                     key={idea.id}
                                     onClick={() => selectIdea(idea)}
-                                    className={`text-left p-3 rounded-xl border-2 transition-all flex flex-col gap-1 focus:outline-none idea-card bg-white dark:bg-slate-800 hover:border-purple-300 dark:border-slate-600 ${selectedIdea?.id === idea.id ? 'border-purple-600' : ''}`}
+                                    className={`text-left p-4 rounded-2xl border transition-all flex flex-col gap-1 focus:outline-none idea-card bg-white/5 hover:bg-purple-600/10 ${selectedIdea?.id === idea.id ? 'border-purple-600 bg-purple-600/10 shadow-[0_0_20px_rgba(168,85,247,0.2)]' : 'border-white/5'}`}
                                 >
-                                    <div className="flex items-center gap-2 font-bold text-gray-800 dark:text-gray-200 text-xs">{idea.title}</div>
-                                    <div className="flex flex-wrap gap-1 mt-1">
+                                    <div className="flex items-center gap-2 font-black text-white text-[10px] uppercase tracking-tight">{idea.title}</div>
+                                    <div className="flex flex-wrap gap-1 mt-2">
                                         {idea.elements.slice(0, 3).map(e => (
-                                            <span key={e} className="bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-300 text-[9px] px-1.5 py-0.5 rounded">{e}</span>
+                                            <span key={e} className="bg-white/10 text-white/50 text-[8px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full">{e}</span>
                                         ))}
                                     </div>
                                 </button>
@@ -67,17 +68,17 @@ const RightPanel = () => {
                     </div>
 
                     <div className="flex-1 flex flex-col sm:flex-row overflow-hidden">
-                        <div className="w-full sm:w-2/3 p-4 flex flex-col relative border-r border-gray-200 dark:border-slate-700">
-                            <div className="flex justify-between items-center mb-2 z-10 shrink-0 overflow-x-auto pb-1">
-                                <h4 id="viewer-title" className="font-bold text-sm text-gray-700 dark:text-gray-200 min-w-[120px]">Vista Isométrica 3D</h4>
-                                <div className="flex gap-1 bg-gray-100 dark:bg-slate-700 p-1 rounded-lg border border-gray-200 dark:border-slate-600 shrink-0 ml-2">
-                                    <button onClick={() => setActiveView('3d')} id="btn-view-3d" className={`px-2 py-1 text-xs font-bold rounded transition ${activeView === '3d' ? 'bg-white dark:bg-slate-800 shadow-sm text-purple-700 dark:text-purple-400' : 'text-gray-500 dark:text-gray-400'}`}>3D</button>
-                                    <button onClick={() => setActiveView('render')} id="btn-view-render" className={`px-2 py-1 text-xs font-medium rounded transition ${activeView === 'render' ? 'bg-white dark:bg-slate-800 shadow-sm text-purple-700 dark:text-purple-400' : 'text-gray-500 dark:text-gray-400'}`}>Render</button>
-                                    <button onClick={() => setActiveView('roi')} id="btn-view-roi" className={`px-2 py-1 text-xs font-medium rounded transition ${activeView === 'roi' ? 'bg-white dark:bg-slate-800 shadow-sm text-purple-700 dark:text-purple-400' : 'text-gray-500 dark:text-gray-400'}`}>Inversión</button>
-                                    <button onClick={() => setActiveView('marketing')} id="btn-view-marketing" className={`px-2 py-1 text-xs font-medium rounded transition ${activeView === 'marketing' ? 'bg-white dark:bg-slate-800 shadow-sm text-pink-600 dark:text-pink-400' : 'text-gray-500 dark:text-gray-400'}`}>Marketing</button>
+                        <div className="w-full sm:w-2/3 p-5 flex flex-col relative border-r border-white/10">
+                            <div className="flex justify-between items-center mb-4 z-10 shrink-0 overflow-x-auto pb-1 gap-4">
+                                <h4 id="viewer-title" className="font-black text-[10px] uppercase tracking-[0.2em] text-white/40 min-w-[120px]">Monitoreo de Visualización</h4>
+                                <div className="flex gap-1 bg-white/5 p-1 rounded-xl border border-white/10 shrink-0">
+                                    <button onClick={() => setActiveView('3d')} id="btn-view-3d" className={`px-3 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-lg transition-all ${activeView === '3d' ? 'bg-purple-600 text-white shadow-lg' : 'text-white/30 hover:text-white'}`}>3D</button>
+                                    <button onClick={() => setActiveView('render')} id="btn-view-render" className={`px-3 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-lg transition-all ${activeView === 'render' ? 'bg-purple-600 text-white shadow-lg' : 'text-white/30 hover:text-white'}`}>Render</button>
+                                    <button onClick={() => setActiveView('roi')} id="btn-view-roi" className={`px-3 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-lg transition-all ${activeView === 'roi' ? 'bg-purple-600 text-white shadow-lg' : 'text-white/30 hover:text-white'}`}>ROI</button>
+                                    <button onClick={() => setActiveView('marketing')} id="btn-view-marketing" className={`px-3 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-lg transition-all ${activeView === 'marketing' ? 'bg-purple-600 text-white shadow-lg' : 'text-white/30 hover:text-white'}`}>Social</button>
                                 </div>
                             </div>
-                            <div className="flex-1 relative rounded-xl overflow-hidden border border-gray-200 dark:border-slate-700 shadow-inner bg-[#e0f2fe] dark:bg-slate-900 transition-colors">
+                            <div className="flex-1 relative rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl bg-[#020617] transition-all">
                                 {activeView === '3d' && <ThreeScene />}
                                 {activeView === 'roi' && <RoiPanel />}
                                 {activeView === 'marketing' && <MarketingPanel />}
