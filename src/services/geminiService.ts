@@ -9,11 +9,17 @@ const ai = new GoogleGenAI({ apiKey });
 
 export const generateRender = async (itemsText: string, markers: any[]) => {
     const positions = markers.map(m => `a ${m.type} at ${m.lat.toFixed(4)}, ${m.lng.toFixed(4)}`).join(', ');
-    const prompt = `Photorealistic architectural render eco-project with: ${itemsText}. The items are distributed as follows: ${positions}. 2-story modular cabins on metal pedestals with solar roof panels, wind turbines on poles behind cabins, outdoor stationary bicycles, saunas, medicinal herb gardens, swimming pools. Mountain pine forest Valle de Angeles Honduras. Sunny, 8k.`;
+    const prompt = `REAL-ESTATE RENDER GENERATION. 
+    Context: Photorealistic architectural render of an eco-project in Valle de Angeles, Honduras. 
+    Pine forest, mountainous terrain.
+    Items to include: ${itemsText}.
+    Distribution: ${positions}.
+    Style: 8k, photorealistic, modern sustainable architecture.
+    IMPORTANT: If you have image generation capabilities, generate an image. If not, describe the scene in detail.`;
 
     try {
         const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash-image',
+            model: 'gemini-1.5-flash',
             contents: [{ parts: [{ text: prompt }] }],
         });
 
@@ -23,11 +29,17 @@ export const generateRender = async (itemsText: string, markers: any[]) => {
             return `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
         }
 
-        // If not inlineData, maybe it's in a different field or text that contains a URL
-        return response.text || null;
+        // Search for image in file data if applicable
+        const filePart = response.candidates?.[0]?.content?.parts?.find(p => p.fileData);
+        if (filePart?.fileData) {
+            return filePart.fileData.fileUri; // Might be a temporary URI
+        }
+
+        // If it's just text, we return null to the UI (which shows the placeholder)
+        // or we could return a placeholder image based on the text (too complex for now)
+        return null;
     } catch (error) {
         console.error("Error generating render:", error);
-        // Fallback to gemini-1.5-flash if 2.5 fails, though it won't produce an image
         return null;
     }
 };

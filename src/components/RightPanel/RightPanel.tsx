@@ -30,7 +30,7 @@ const RightPanel = () => {
     const { selectIdea, selectedIdea } = useStore();
 
     return (
-        <div className="w-full lg:w-7/12 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 flex flex-col h-1/2 lg:h-full overflow-hidden transition-colors">
+        <div className="w-full bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 flex flex-col h-full overflow-hidden transition-colors">
             {isLoading ? (
                 <div id="ai-status-panel" className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-gray-50 dark:bg-slate-800/50">
                     <div id="ai-loading">

@@ -26,15 +26,17 @@ export default function App() {
     <div className="bg-gray-100 dark:bg-slate-950 h-screen flex flex-col font-sans overflow-hidden transition-colors duration-300">
       <Header />
       <Tabs />
-      <main className="flex-1 flex flex-col lg:flex-row overflow-hidden p-4 gap-4">
-        <div className="w-full lg:w-5/12 flex flex-col gap-4 h-1/2 lg:h-full relative">
+      <main className="flex-1 flex flex-col lg:flex-row overflow-hidden p-2 sm:p-4 gap-2 sm:gap-4 scroll-auto lg:overflow-hidden">
+        <div className="w-full lg:w-5/12 flex flex-col gap-2 sm:gap-4 h-[45vh] lg:h-full relative shrink-0 lg:shrink">
           <InfoPanel />
-          <div className="flex-1 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 overflow-hidden relative">
+          <div className="flex-1 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 overflow-hidden relative min-h-[200px]">
             <Map />
             <InventoryPanel />
           </div>
         </div>
-        <RightPanel />
+        <div className="w-full lg:w-7/12 flex flex-col h-[55vh] lg:h-full min-h-[400px] lg:min-h-0">
+          <RightPanel />
+        </div>
         <VoiceAgent />
       </main>
     </div>
