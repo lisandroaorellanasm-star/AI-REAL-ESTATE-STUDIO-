@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --marker-opacity: 0.8;
+  }
+
+  body {
+    @apply bg-gray-100 dark:bg-slate-950 font-sans;
+  }
+}
+
+@layer components {
+  .tab-active {
+    @apply border-b-4 border-purple-600 text-purple-700 font-bold dark:text-purple-400 dark:bg-purple-900/10;
+  }
+
+  .tab-inactive {
+    @apply border-b-4 border-transparent text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-slate-800;
+  }
+
+  .glass-marker {
+    opacity: var(--marker-opacity);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    transition: opacity 0.2s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+}
+
