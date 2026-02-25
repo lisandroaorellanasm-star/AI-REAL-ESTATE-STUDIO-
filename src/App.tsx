@@ -36,7 +36,6 @@ export default function App() {
           </div>
         </div>
         <RightPanel />
-        <OccupancyPanel />
         <VoiceAgent />
       </main>
     </div>
