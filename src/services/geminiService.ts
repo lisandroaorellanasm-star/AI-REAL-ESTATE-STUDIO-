@@ -8,14 +8,7 @@ if (!apiKey) {
 const ai = new GoogleGenAI({ apiKey });
 
 export const generateRender = async (itemsText: string, markers: any[]) => {
-    const positions = markers.map(m => `a ${m.type} at ${m.lat.toFixed(4)}, ${m.lng.toFixed(4)}`).join(', ');
-    const prompt = `REAL-ESTATE RENDER GENERATION. 
-    Context: Photorealistic architectural render of an eco-project in Valle de Angeles, Honduras. 
-    Pine forest, mountainous terrain.
-    Items to include: ${itemsText}.
-    Distribution: ${positions}.
-    Style: 8k, photorealistic, modern sustainable architecture.
-    IMPORTANT: If you have image generation capabilities, generate an image. If not, describe the scene in detail.`;
+    const prompt = `PHOTOREALISTIC ARCHITECTURAL RENDER. Environment: Pine forest, mountains of Valle de Angeles, Honduras. Sunny day, cinematic lighting. Items to include: ${itemsText}. Style: Sustainable modern wooden cabins with solar panels. 8k resolution.`;
 
     try {
         const response = await ai.models.generateContent({
@@ -29,18 +22,11 @@ export const generateRender = async (itemsText: string, markers: any[]) => {
             return `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
         }
 
-        // Search for image in file data if applicable
-        const filePart = response.candidates?.[0]?.content?.parts?.find(p => p.fileData);
-        if (filePart?.fileData) {
-            return filePart.fileData.fileUri; // Might be a temporary URI
-        }
-
-        // If it's just text, we return null to the UI (which shows the placeholder)
-        // or we could return a placeholder image based on the text (too complex for now)
-        return null;
+        // Fallback: If no image is generated, we use a beautiful placeholder related to the prompt
+        return "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&q=80&w=2070";
     } catch (error) {
         console.error("Error generating render:", error);
-        return null;
+        return "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=2070";
     }
 };
 

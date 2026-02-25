@@ -43,7 +43,16 @@ const Header = () => {
                 <button onClick={toggleMusic} className="bg-slate-800 text-slate-300 hover:text-white px-3 py-1.5 rounded text-xs border border-slate-700 transition-colors flex items-center gap-2">
                     <i className={`fa-solid ${isMusicPlaying ? 'fa-volume-high' : 'fa-volume-off'}`}></i> <span className="hidden sm:inline">{isMusicPlaying ? 'Música On' : 'Música Off'}</span>
                 </button>
-                <input type="range" min="0" max="1" step="0.1" value={musicVolume} onChange={(e) => setMusicVolume(parseFloat(e.target.value))} className="w-20 h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" />
+                <input type="range" min="0" max="1" step="0.1" value={musicVolume} onChange={(e) => setMusicVolume(parseFloat(e.target.value))} className="w-20 h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 hidden lg:block" title="Volumen" />
+
+                <button
+                    onClick={() => {
+                        import('../../services/supabaseClient').then(({ supabase }) => supabase.auth.signOut());
+                    }}
+                    className="bg-red-900/40 text-red-200 hover:bg-red-800 px-3 py-1.5 rounded text-xs border border-red-800/50 transition-colors flex items-center gap-2"
+                >
+                    <i className="fa-solid fa-sign-out-alt"></i> <span className="hidden md:inline">Salir</span>
+                </button>
             </div>
         </header>
     );

@@ -29,6 +29,8 @@ interface AppState {
     occupancyRate: number;
     setOccupancyRate: (rate: number) => void;
     setHydratedData: (data: { activeMarkers: ActiveMarker[], selectedIdea: Idea | null }) => void;
+    user: any;
+    setUser: (user: any) => void;
 }
 
 export const useStore = create<AppState>((set, get) => ({
@@ -100,6 +102,8 @@ export const useStore = create<AppState>((set, get) => ({
     setHydratedData: (data) => set({
         activeMarkers: data.activeMarkers,
         selectedIdea: data.selectedIdea
-    })
+    }),
+    user: null,
+    setUser: (user) => set({ user })
 }));
 
