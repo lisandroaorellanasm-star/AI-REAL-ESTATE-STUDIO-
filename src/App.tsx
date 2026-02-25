@@ -8,8 +8,10 @@ import OccupancyPanel from './components/OccupancyPanel/OccupancyPanel';
 import VoiceAgent from './components/VoiceAgent/VoiceAgent';
 import InventoryPanel from './components/InventoryPanel/InventoryPanel';
 import { useStore } from './store';
+import { usePersistence } from './hooks/usePersistence';
 
 export default function App() {
+  usePersistence();
   const { isDarkMode } = useStore();
 
   useEffect(() => {
@@ -33,8 +35,8 @@ export default function App() {
           </div>
         </div>
         <RightPanel />
-                <OccupancyPanel />
-                <VoiceAgent />
+        <OccupancyPanel />
+        <VoiceAgent />
       </main>
     </div>
   );

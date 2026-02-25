@@ -28,6 +28,7 @@ interface AppState {
     setMusicVolume: (volume: number) => void;
     occupancyRate: number;
     setOccupancyRate: (rate: number) => void;
+    setHydratedData: (data: { activeMarkers: ActiveMarker[], selectedIdea: Idea | null }) => void;
 }
 
 export const useStore = create<AppState>((set, get) => ({
@@ -67,7 +68,7 @@ export const useStore = create<AppState>((set, get) => ({
 
         const str = idea.elements.join(" ").toLowerCase();
         if (str.includes("hotel")) addItem('hotel');
-        if (str.includes("cabaña")) { for(let i=0; i<4; i++) addItem('cabana'); }
+        if (str.includes("cabaña")) { for (let i = 0; i < 4; i++) addItem('cabana'); }
         if (str.includes("piscina")) addItem('piscina');
         if (str.includes("yoga")) addItem('yoga');
         addItem('parqueo');
@@ -95,6 +96,10 @@ export const useStore = create<AppState>((set, get) => ({
         set(state => ({
             activeMarkers: state.activeMarkers.map(m => m.id === id ? { ...m, lat, lng } : m)
         }));
-    }
+    },
+    setHydratedData: (data) => set({
+        activeMarkers: data.activeMarkers,
+        selectedIdea: data.selectedIdea
+    })
 }));
 
