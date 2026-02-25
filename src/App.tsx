@@ -29,9 +29,9 @@ export default function App() {
       <main className="flex-1 flex flex-col lg:flex-row overflow-hidden p-2 sm:p-4 gap-2 sm:gap-4 scroll-auto lg:overflow-hidden">
         <div className="w-full lg:w-5/12 flex flex-col gap-2 sm:gap-4 h-[45vh] lg:h-full relative shrink-0 lg:shrink">
           <InfoPanel />
-          <div className="flex-1 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 overflow-hidden relative min-h-[200px]">
+          <InventoryPanel />
+          <div className="flex-1 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 overflow-hidden relative min-h-[150px]">
             <Map />
-            <InventoryPanel />
           </div>
         </div>
         <div className="w-full lg:w-7/12 flex flex-col h-[55vh] lg:h-full min-h-[400px] lg:min-h-0">

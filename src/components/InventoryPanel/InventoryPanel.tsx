@@ -17,7 +17,7 @@ const InventoryPanel = () => {
     activeMarkers.forEach(m => counts[m.type] = (counts[m.type] || 0) + 1);
 
     return (
-        <div id="inventory-panel" className="absolute bottom-2 left-2 right-2 sm:bottom-4 sm:left-4 sm:right-4 z-[1000] bg-white/70 dark:bg-slate-900/80 backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-2xl sm:rounded-3xl p-2 sm:p-3 flex flex-col shadow-2xl transition-all">
+        <div id="inventory-panel" className="relative w-full z-[50] bg-white/70 dark:bg-slate-900/80 backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-2xl sm:rounded-3xl p-2 sm:p-3 flex flex-col shadow-lg transition-all mb-1">
             <div className="flex justify-between items-center mb-1.5 sm:mb-3 px-2 sm:px-3">
                 <h3 className="font-black text-[10px] sm:text-xs uppercase tracking-widest text-purple-700 dark:text-purple-300 flex items-center gap-1.5">
                     <i className="fa-solid fa-shapes"></i> <span>Unidades</span>
