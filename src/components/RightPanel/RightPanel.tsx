@@ -7,6 +7,7 @@ import RoiPanel from '../RoiPanel/RoiPanel';
 import MarketingPanel from '../MarketingPanel/MarketingPanel';
 import ChatAgent from '../ChatAgent/ChatAgent';
 import RenderPanel from '../RenderPanel/RenderPanel';
+import OccupancyPanel from '../OccupancyPanel/OccupancyPanel';
 import { itemDefs } from '@/src/data/lotes';
 
 const RightPanel = () => {
@@ -39,13 +40,21 @@ const RightPanel = () => {
                 </div>
             ) : (
                 <div id="ai-results-panel" className="flex flex-1 flex-col overflow-hidden">
-                    <div className="p-3 border-b border-gray-200 dark:border-slate-700 bg-purple-50/50 dark:bg-purple-900/10 shrink-0 transition-colors">
-                        <h3 className="font-bold text-gray-800 dark:text-gray-200 text-xs mb-2 flex items-center gap-2 px-1">
+                    <div className="p-3 border-b border-gray-200 dark:border-slate-700 bg-purple-50/50 dark:bg-purple-900/10 shrink-0 transition-colors flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                        <h3 className="font-bold text-gray-800 dark:text-gray-200 text-xs flex items-center gap-2 px-1">
                             Bases del Proyecto (Elige una para iniciar)
                         </h3>
+                        <OccupancyPanel />
+                    </div>
+
+                    <div className="p-3 border-b border-gray-200 dark:border-slate-700 bg-gray-50/30 dark:bg-slate-900/10 shrink-0">
                         <div id="ideas-grid" className="grid grid-cols-1 md:grid-cols-3 gap-2">
                             {ideas.map(idea => (
-                                <button key={idea.id} onClick={() => selectIdea(idea)} className={`text-left p-3 rounded-xl border-2 transition-all flex flex-col gap-1 focus:outline-none idea-card bg-white dark:bg-slate-800 hover:border-purple-300 dark:border-slate-600 ${selectedIdea?.id === idea.id ? 'border-purple-600' : ''}`}>
+                                <button
+                                    key={idea.id}
+                                    onClick={() => selectIdea(idea)}
+                                    className={`text-left p-3 rounded-xl border-2 transition-all flex flex-col gap-1 focus:outline-none idea-card bg-white dark:bg-slate-800 hover:border-purple-300 dark:border-slate-600 ${selectedIdea?.id === idea.id ? 'border-purple-600' : ''}`}
+                                >
                                     <div className="flex items-center gap-2 font-bold text-gray-800 dark:text-gray-200 text-xs">{idea.title}</div>
                                     <div className="flex flex-wrap gap-1 mt-1">
                                         {idea.elements.slice(0, 3).map(e => (
@@ -56,6 +65,7 @@ const RightPanel = () => {
                             ))}
                         </div>
                     </div>
+
                     <div className="flex-1 flex flex-col sm:flex-row overflow-hidden">
                         <div className="w-full sm:w-2/3 p-4 flex flex-col relative border-r border-gray-200 dark:border-slate-700">
                             <div className="flex justify-between items-center mb-2 z-10 shrink-0 overflow-x-auto pb-1">
