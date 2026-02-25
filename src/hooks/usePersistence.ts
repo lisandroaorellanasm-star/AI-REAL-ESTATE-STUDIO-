@@ -4,15 +4,16 @@ import { supabaseService } from '../services/supabaseService';
 import { supabase } from '../services/supabaseClient';
 
 export const usePersistence = () => {
-    const { activeLotId, getActiveLot, activeMarkers, selectedIdea, setHydratedData } = useStore() as any;
+    const { activeLotId, getActiveLot, activeMarkers, selectedIdea, setHydratedData, user } = useStore() as any;
     const isInitialLoad = useRef(true);
 
     // 1. Initial Load: Fetch from Supabase
     useEffect(() => {
         const loadFromSupabase = async () => {
+            if (!user) return;
             try {
                 const lot = getActiveLot();
-                const lotId = await supabaseService.ensureProjectAndLot(lot);
+                const lotId = await supabaseService.ensureProjectAndLot(lot, user.id);
 
                 // Fetch markers
                 const { data: dbMarkers } = await supabase
@@ -48,9 +49,10 @@ export const usePersistence = () => {
         if (isInitialLoad.current) return;
 
         const syncToSupabase = async () => {
+            if (!user) return;
             try {
                 const lot = getActiveLot();
-                const lotId = await supabaseService.ensureProjectAndLot(lot);
+                const lotId = await supabaseService.ensureProjectAndLot(lot, user.id);
 
                 await supabaseService.syncMarkers(lotId, activeMarkers);
                 await supabaseService.syncIdea(lotId, selectedIdea);

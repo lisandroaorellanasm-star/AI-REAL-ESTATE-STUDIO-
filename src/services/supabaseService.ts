@@ -2,18 +2,22 @@ import { supabase } from './supabaseClient';
 import { Idea, ActiveMarker, Lote } from '../types';
 
 export const supabaseService = {
-    async ensureProjectAndLot(lot: Lote) {
+    async ensureProjectAndLot(lot: Lote, userId: string) {
         // 1. Ensure project exists (default project for now)
         let { data: project, error: pError } = await supabase
             .from('projects')
             .select('id')
-            .eq('name', 'Default Project')
+            .eq('user_id', userId)
+            .eq('name', 'Eco Studio Project')
             .single();
 
         if (!project) {
             const { data: newP, error: newPError } = await supabase
                 .from('projects')
-                .insert({ name: 'Default Project' })
+                .insert({
+                    name: 'Eco Studio Project',
+                    user_id: userId
+                })
                 .select()
                 .single();
             project = newP;
