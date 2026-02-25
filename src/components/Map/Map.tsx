@@ -29,10 +29,10 @@ const Map = () => {
                 mapInstance.current.removeLayer(polygonRef.current);
             }
             const latlngs = activeLot.coordenadas_utm.map(coord => utmToLatLon(coord[0], coord[1]));
-            polygonRef.current = L.polygon(latlngs, { 
-                color: activeLot.color, 
-                fillColor: activeLot.fillColor, 
-                fillOpacity: 0.2 
+            polygonRef.current = L.polygon(latlngs, {
+                color: activeLot.color,
+                fillColor: activeLot.fillColor,
+                fillOpacity: 0.2
             }).addTo(mapInstance.current);
             mapInstance.current.fitBounds(polygonRef.current.getBounds(), { padding: [40, 40] });
         }
@@ -54,10 +54,10 @@ const Map = () => {
             if (!markersRef.current[markerData.id]) {
                 const itemDef = itemDefs[markerData.type];
                 const icon = L.divIcon({
-                    html: `<div class="glass-marker w-5 h-5 flex items-center justify-center rounded-full border border-white/60 text-[8px] ${itemDef.colorClass}">${itemDef.iconHtml}</div>`,
+                    html: `<div class="glass-marker w-8 h-8 flex items-center justify-center rounded-xl border-2 border-white/80 text-sm shadow-xl transform hover:scale-125 transition-transform ${itemDef.colorClass}">${itemDef.iconHtml}</div>`,
                     className: '',
-                    iconSize: [20, 20],
-                    iconAnchor: [10, 10]
+                    iconSize: [32, 32],
+                    iconAnchor: [16, 16]
                 });
                 const marker = L.marker([markerData.lat, markerData.lng], { icon, draggable: true }).addTo(mapInstance.current!);
                 marker.on('dragend', (e) => {
