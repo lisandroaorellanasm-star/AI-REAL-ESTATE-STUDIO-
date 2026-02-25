@@ -1,6 +1,6 @@
 # Guía de Despliegue Final: Vercel + Supabase + GitHub
 
-Para que tu aplicación funcione correctamente en producción (`z6m.vercel.app`), debes seguir estos pasos finales para conectar todas las piezas.
+Para que tu aplicación funcione correctamente en producción (`ai-real-estate-studio.vercel.app`), debes seguir estos pasos finales para conectar todas las piezas.
 
 ## 1. Configurar Variables de Envío en Vercel
 Entra a tu panel de Vercel, ve a **Settings > Environment Variables** y añade las siguientes llaves (copia los valores de tu archivo `.env` local):
@@ -14,15 +14,33 @@ Entra a tu panel de Vercel, ve a **Settings > Environment Variables** y añade l
 > [!IMPORTANT]
 > Asegúrate de que las variables empiecen con `VITE_` para que Vite las pueda leer en el navegador.
 
-## 2. Configurar Redirect URLs en Supabase
-Para que el login con **Google** o el enlace de confirmación de correo funcionen, debes autorizar el dominio de Vercel:
+## 2. Configurar Google Auth (Opcional pero Recomendado)
+Si recibes el error `"Unsupported provider: provider is not enabled"`, es porque necesitas activar Google en tu proyecto de Supabase:
 
-1.  Entra al panel de **Supabase**.
-2.  Ve a **Authentication > URL Configuration**.
-3.  En **Redirect URLs**, añade: `https://z6m.vercel.app`
-4.  En **Site URL**, asegúrate de que esté tu dominio de producción o `https://z6m.vercel.app`.
+1.  **Google Cloud Console**:
+    - Ve a [Google Cloud Console](https://console.cloud.google.com/).
+    - Crea un nuevo proyecto o selecciona uno existente.
+    - Ve a **APIs & Services > OAuth consent screen** y configúralo (User Type: External).
+    - Ve a **Credentials > Create Credentials > OAuth client ID**.
+    - Selecciona **Web application**.
+    - En **Authorized redirect URIs**, añade la URL que aparece en Supabase bajo `Authentication > Providers > Google` (ej: `https://ahkkkmfbnpcuwhtkordt.supabase.co/auth/v1/callback`).
+    - Copia el **Client ID** y el **Client Secret**.
 
-## 3. Conexión GitHub
+2.  **Dashboard de Supabase**:
+    - Ve a **Authentication > Providers**.
+    - Busca **Google** y actívalo.
+    - Pega el **Client ID** y el **Client Secret**.
+    - Haz clic en **Save**.
+
+## 3. Configurar Redirect URLs en Supabase
+Para que el login y la confirmación de correo funcionen:
+1.  Ve a **Authentication > URL Configuration**.
+2.  En **Redirect URLs**, añade:
+    - `https://ai-real-estate-studio.vercel.app`
+    - `http://localhost:3000` (para pruebas locales)
+3.  En **Site URL**, usa tu dominio principal: `https://ai-real-estate-studio.vercel.app`.
+
+## 4. Conexión GitHub
 He subido los últimos cambios a tu rama `main`. Vercel debería detectar el cambio y empezar a construir la nueva versión automáticamente. 
 
 ---
